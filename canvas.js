@@ -1,7 +1,6 @@
 (function(w) {
 	var storage = JSON.parse(window.localStorage.getItem("balance"));
 	var all_result = [];
-	console.log(all_result.length);
 	
 	if (storage !== null) {
 		if(!(storage instanceof Array)) {
@@ -10,7 +9,6 @@
 			all_result = storage;
 		};		
 	};
-	console.log(all_result.length);
 	
 	var balance = {
 		wrapper: null,
@@ -72,6 +70,7 @@
 			if(dif == 0) { 
 				this.pos_target = this.new_target(); 
 				this.result.score++;
+				alert(this.result.score);
 			};
 			
 			var angle = 90 * Math.PI / 180;

@@ -1,10 +1,20 @@
 (function(w) {
 	var util = {
 		translate: function(d) {
+			var adjust = function(num) {
+				var str = "";
+				if(parseInt(num) < 10) {
+					str += "0" + num;
+				} else {
+					str += num;					
+				}
+				return str;
+			}
+		
 			var now = "";
 			now += "西暦" + d.getFullYear() + "年";
-			now += d.getMonth() + 1 + "月";
-			now += d.getDate() + "日";
+			now += adjust(d.getMonth() + 1) + "月";
+			now += adjust(d.getDate()) + "日";
 			
 			var y = d.getDay();
 			if (y == 6) {
@@ -23,9 +33,9 @@
 				now +=  "日曜日" + "　";	
 			};
 			
-			now += d.getHours() + "時";
-			now += d.getMinutes() + "分";
-			now += d.getSeconds() + "秒";
+			now += adjust(d.getHours()) + "時";
+			now += adjust(d.getMinutes()) + "分";
+			now += adjust(d.getSeconds()) + "秒";
 			
 			return now;
 		}
