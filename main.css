@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+#sample {
+	background-color: black;
+	width: 300px;
+	height: 300px;
+}
+
+body {
+	width: 640px;
+	/*height: 960px;*/ /*縦方向を指定するとViewportが効かなくなる*/
+
+	margin: 0 auto;
+	padding: 0;
+	/*position: relative;*/ /*relativeにするとViewportが効かなくなる*/
+}
+
+article {
+	width: 100%;
+	/*height: 960px;*/
+	border: solid 1px black;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+}
+
+/**********************************/
+article#start {
+	background-color: red;
+	display: block;
+}
+
+/**********************************/
+article#description {
+	background-color: blue;
+}
+
+/**********************************/
+article#play {
+	background-color: yellow;
+}
+
+article#play #direction {
+	position: absolute;
+	bottom: 50px;
+}
+
+#cvs_container {
+	width: 100%;
+	height: 100%;
+
+	position: fixed;
+	/*background-color: blue;*/
+}
+
+#canvas {
+	/*background-color: black;*/
+}
+
+/**********************************/
+article#result {
+	background-color: green;
+}
+
+/*タッチしているとき*/
+.moving_touch {
+	-webkit-transition-property: top;
+	-webkit-transition-duration: 1ms;
+	top: 0px;
+}
+
+/*指を離したとき*/
+.moving_release {
+	-webkit-transition-property: top;
+	-webkit-transition-duration: 300ms;
+}
+
+/*フリック対象*/
+section {
+	width: 100%;
+	/*height: 480px;*/
+	height: 415px;
+
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	/*overflow: hidden;*/
+}
+
+section#score {
+	background-color: #696969;
+	z-index: 2;
+}
+
+section#history {
+	background-color: green;
+	z-index: 1;
+}
+
+.flick {
+	width: 100%;
+	height: 50px;
+
+	position: absolute;
+	bottom: 0;
+	background-color: red;
+}
+
+/**********************************/
+article#history {
+	background-color: #0ff;
+}
