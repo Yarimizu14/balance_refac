@@ -1,13 +1,16 @@
 (function(w) {
 	var storage = JSON.parse(window.localStorage.getItem("balance"));
 	var all_result = [];
+	console.log(all_result.length);
 	
-	if(!(storage instanceof Array)) {
-		all_result[0] = storage;
-	} else {
-		all_result = storage;
+	if (storage !== null) {
+		if(!(storage instanceof Array)) {
+			all_result[0] = storage;
+		} else {
+			all_result = storage;
+		};		
 	};
-	console.log(all_result);
+	console.log(all_result.length);
 	
 	var balance = {
 		wrapper: null,

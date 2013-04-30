@@ -23,8 +23,15 @@
 /*PCデバッグ用*/ w.balance.initialize(); 
 			} else if (next === 3) {
 				var out = document.getElementById("out");
-				//var history = document.getElementById("history");
-				out.innerHTML = balance.result.score;
+				var history_list = document.getElementById("history_list");
+				
+				out.innerHTML = "スコア : " + balance.result.score;
+				
+				for(var i=0; i < all_result.length && i < 5; i++) {
+					var liTag = document.createElement("li");
+					liTag.innerHTML = all_result[i].time + " スコア:"  + all_result[i].score;
+					history_list.appendChild(liTag);
+				};
 			}
 
 			this.page_current = next;
@@ -62,7 +69,6 @@
 				this.playing = false;
 				w.balance.destroy();
 			};
-			//View.pages[View.page_current].show();
 		},
 		//初期化、イベントのセット
 		initialize: function() {
