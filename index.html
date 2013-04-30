@@ -15,6 +15,7 @@
 
 <!--link rel="stylesheet" href="reset.css" type="text/css" /-->
 <link rel="stylesheet" href="main.css" type="text/css" />
+<script type="text/javascript" src="./util.js" ></script>
 <script type="text/javascript" src="./canvas.js" ></script>
 <script type="text/javascript" src="./pages.js" ></script>
 <script type="text/javascript" src="./main.js" ></script>
@@ -61,16 +62,17 @@
 	<section id="score" class="moving_touch" data-layer="2">
 		<p><a data-link="1">About</a></p>
 		<h2>診断結果</h2>
-		<p>325pt</p>
-		<p>Lv: 5</p>
+		<div id="out">
+			<p></p>
+			<p>Lv: 5</p>
+		</div>
 
-		<span>過去の成績</span>
 		<div id="flick-to-history" class="flick">上にフリックしてください</div>
 	</section>
 
 	<section id="history" class="moving_touch" data-layer="1">
 		<h2>過去の成績</h2>
-		<ul>
+		<ul id="history_list">
 			<li>○○月××日 ???pt</li>
 			<li>○○月××日 ???pt</li>
 			<li>○○月××日 ???pt</li>

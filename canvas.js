@@ -1,4 +1,13 @@
 (function(w) {
+	var storage = JSON.parse(window.localStorage.getItem("balance"));
+	var all_result = [];
+	
+	if(!(storage instanceof Array)) {
+		all_result[0] = storage;
+	} else {
+		all_result = storage;
+	};
+	console.log(all_result);
 	
 	var balance = {
 		wrapper: null,
@@ -8,6 +17,10 @@
 			min: 0,
 			sec: 10,
 			check: null
+		},
+		result: {
+			time: null,
+			score: 0
 		},
 		pos_target: Math.floor(w.innerHeight/2),
 		pos_current: Math.floor(w.innerHeight/2),
@@ -26,21 +39,14 @@
 			this.cvs.width = 480;
 
 			this.count.check = this.startCount();
+			
+			this.result.score =0;
+			
 			w.balance.draw(0);
 
 			w.addEventListener("devicemotion", function(e){
 				var xg = e.accelerationIncludingGravity.x;  // X方向の傾き
 				w.balance.draw(xg);
-				//this.draw(xg/*, target*/);
-				/*
-				if(w.balance.count === 10) {
-					clearInterval(w.balance.timer);
-					w.balance.count++;
-					alert("診断終了");
-					w.View.move(3);
-					w.balance.destroy();
-				}
-				*/
 			}, true);
 		},
 		draw: function(move/*, target*/) {
@@ -52,11 +58,6 @@
 			context.fillStyle = "black";
 			context.fillRect(0, 0, cvs.width, cvs.height);
 
-			/*
-			context.fillStyle = "black";
-			context.fillRect(0, current_pos, cvs.width, 3);
-			*/
-
 			this.pos_current = Math.floor(window.innerHeight/2 + move*30);
 			context.fillStyle = "red";
 			context.fillRect(0, this.pos_current, cvs.width, 3);
@@ -65,7 +66,10 @@
 			context.fillRect(0, this.pos_target, cvs.width, 3);
 
 			var dif = Math.abs(this.pos_current - this.pos_target);
-			if(dif == 0) { this.pos_target = this.new_target(); };
+			if(dif == 0) { 
+				this.pos_target = this.new_target(); 
+				this.result.score++;
+			};
 			
 			var angle = 90 * Math.PI / 180;
 			context.rotate(angle);
@@ -79,6 +83,7 @@
 		startCount: function() {
 			var countDown = function() {
 				w.balance.count.sec -= 1;
+				console.log(w.balance.showCount());
 				w.balance.count.check();
 			};
 			var timerID = setInterval(countDown, 1000);
@@ -87,6 +92,9 @@
 				if(w.balance.count.min <= 0 && w.balance.count.sec < 0) {
 					alert("診断終了");
 					clearInterval(timerID);
+					w.balance.saveResult();
+					w.View.move(3);
+					w.balance.destroy();
 				};
 			}			
 		},
@@ -106,6 +114,12 @@
 			
 			return limit;
 		},
+		saveResult: function() {
+			var d = new Date();
+			this.result.time = util.translate(d);
+			w.all_result[w.all_result.length] = this.result;
+			window.localStorage.setItem("balance", JSON.stringify(w.all_result));
+		},
 		new_target: function() {
 			var posy = Math.floor(Math.random() * (window.innerHeight - 20));
 			return posy;
@@ -119,5 +133,6 @@
 	};
 
 	w.balance = balance;
+	w.all_result = all_result;
 
 })(window);
