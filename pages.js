@@ -18,7 +18,10 @@
 			var text = "この端末の横幅は" + window.innerWidth + "pxです。";
 			text += "この端末の縦幅は" + window.innerHeight + "pxです。";
 
-			if(this.page_current === 2) {  View.startGame(); }
+			if(next === 2) {  
+				View.startGame();
+/*PCデバッグ用*/ //w.balance.initialize(); 
+			}
 
 			this.page_current = next;
 		},
