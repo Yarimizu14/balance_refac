@@ -20,7 +20,7 @@
 
 			if (next === 2) {  
 				View.startGame();
-/*PCデバッグ用*/ w.balance.initialize(); 
+/*PCデバッグ用*/ //w.balance.initialize(); 
 			} else if (next === 3) {
 				var out = document.getElementById("out");
 				var history_list = document.getElementById("history_list");

@@ -91,7 +91,7 @@
 			var timerID = setInterval(countDown, 1000);
 			
 			return function() {
-				if(w.balance.count.min <= 0 && w.balance.count.sec < 0) {
+				if(w.balance.count.min <= 0 && w.balance.count.sec <= 0) {
 					alert("診断終了");
 					clearInterval(timerID);
 					w.balance.saveResult();
