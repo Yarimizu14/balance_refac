@@ -1,11 +1,5 @@
 @charset "UTF-8";
 
-#sample {
-	background-color: black;
-	width: 300px;
-	height: 300px;
-}
-
 .clearfix:after {
 	content: "."; 
 	display: block; 
@@ -25,16 +19,18 @@ body {
 	/*position: relative;*/ /*relativeにするとViewportが効かなくなる*/
 }
 
-img#title {
-	width: 80%;
-	display: block;
-	margin: 30% auto 0;
-}
+article {
+	/*width: 100%;*/
+	width: 320px;
+	height: 416px;
+	border: solid 1px black;
 
-img#description {
-	width: 70%;
-	display: block;
-	margin: 10px auto 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+
+	background-image: url(./images/ptn.png);
 }
 
 .page_title {
@@ -50,8 +46,6 @@ img#description {
 	box-shadow: 0px 1px 0px 0px #111;
 	-webkit-box-shadow: 0px 1px 0px 0px #111;	
 }
-
-
 
 .button {
 	margin: 0 auto;
@@ -90,27 +84,24 @@ img#description {
 	left: 15%;
 }
 
-article {
-	/*width: 100%;*/
-	width: 320px;
-	height: 416px;
-	border: solid 1px black;
-
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: none;
-
-	background-image: url(./images/ptn.png);
-}
-
 /**********************************/
 article#start {
+}
+
+img#title {
+	width: 80%;
 	display: block;
+	margin: 30% auto 0;
 }
 
 /**********************************/
 article#description {
+}
+
+img#description {
+	width: 70%;
+	display: block;
+	margin: 10px auto 0;
 }
 
 /**********************************/
