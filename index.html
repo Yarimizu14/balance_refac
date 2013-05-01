@@ -36,46 +36,54 @@
 -->
 
 <article id="start">
-	<div><img src="" alt="ロゴ"></div>
+	<img id="title" src="./images/title.png" alt="バランス力診断" >
 
-	<p><a data-link="1">About</a></p>
-	<p><a data-link="2">Start</a></p>
-	<p><a data-link="3">Result</a></p>
+	<p class="button gray_gradient"><a data-link="1">操作説明</a></p>
+	<p class="button red_gradient"><a data-link="2">診断開始</a></p>
 </article>
 
 <article id="description">
-	<div>ロゴ</div>
+	<p class="page_title">操作説明</p>
+
+	<img id="description" src="./images/description.png" alt="操作説明アニメーション" >
 
 	<p>手のひらにのせてください</p>
 	<p>赤い線が動きます</p>
-	<p><a data-link="2">診断</a></p>
-	<p><a data-link="3">Result</a></p>
+	
+	<p class="button red_gradient"><a data-link="2">診断開始</a></p>	
 </article>
 
 <article id="play">
 	<!--canvas id="canvas"></canvas-->
-	<div id="sensor"></div>
-	<p id="direction"><a data-link="4">キャンバス</a></p>
+	<div id="alert">
+		<p>画面を右に</p>
+		<p>傾けてください</p>
+	</div>
+	<p class="button gray_gradient"><a data-link="3">戻る</a></p>
 </article>
 
 <article id="result">
 	<section id="score" class="moving_touch" data-layer="2">
-		<p><a data-link="1">About</a></p>
-		<h2>診断結果</h2>
-		<div id="out">
-			<p></p>
-			<p>Lv: 5</p>
+		<p class="page_title">診断結果</p>
+		<div>
+			<p class="small_title">Score</p>
+			<p id="out" class="score_bar"></p>
+		</div>
+		<div id="level_wrapper">
+			<p class="small_title">Level</p>
+			<p id="level_name">中国雑技団レベル</p>
+			<img id="level_img" src="./images/china.jpeg" alt="レベルイベージ">			
 		</div>
 
-		<div id="flick-to-history" class="flick">上にフリックしてください</div>
+
+		<div id="flick-to-history" class="flick">過去の成績へ</div>
 	</section>
 
 	<section id="history" class="moving_touch" data-layer="1">
-		<h2>過去の成績</h2>
+		<p class="page_title">過去の成績</p>
 		<ul id="history_list">
 		</ul>
-
-		<div id="flick-to-result" class="flick">上にフリックしてください</div>
+		<div id="flick-to-result" class="flick">診断結果へ</div>
 	</section>
 
 </article>

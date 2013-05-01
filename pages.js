@@ -29,7 +29,16 @@
 				
 				for(var i=0; i < all_result.length && i < 5; i++) {
 					var liTag = document.createElement("li");
-					liTag.innerHTML = all_result[i].time + " スコア:"  + all_result[i].score;
+					var pScoreTag = document.createElement("p");
+					var pTimeTag = document.createElement("p");
+					
+					pScoreTag.innerHTML = all_result[i].score + " pt";
+					pScoreTag.className = "record_score";
+					pTimeTag.innerHTML = all_result[i].time;
+					pTimeTag.className = "record_time";	
+					
+					liTag.appendChild(pScoreTag);
+					liTag.appendChild(pTimeTag);
 					history_list.appendChild(liTag);
 				};
 			}
@@ -65,8 +74,9 @@
 
 				w.balance.initialize();
 			} else if (this.playing){
-				alert("プレイを終了します。");
+				alert("向きが正常ではありません。プレイを終了します。");
 				this.playing = false;
+				/*「右に傾けてください」とアラートを出すdivをアペンドする。*/
 				w.balance.destroy();
 			};
 		},

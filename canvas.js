@@ -28,10 +28,12 @@
 
 		initialize: function() {
 			this.wrapper = document.getElementById("play");
+			this.wrapper.innerHTML = "";
 
 			var new_cvs = document.createElement("canvas");
 			new_cvs.setAttribute("id", "canvas");
-			this.wrapper.insertBefore(new_cvs, this.wrapper.firstChild);
+			this.wrapper.appendChild(new_cvs);
+			//this.wrapper.insertBefore(new_cvs, this.wrapper.firstChild);
 
 			this.cvs = document.getElementById("canvas");
 			this.context = this.cvs.getContext("2d");
@@ -70,7 +72,6 @@
 			if(dif == 0) { 
 				this.pos_target = this.new_target(); 
 				this.result.score++;
-				alert(this.result.score);
 			};
 			
 			var angle = 90 * Math.PI / 180;
@@ -120,6 +121,7 @@
 			var d = new Date();
 			this.result.time = util.translate(d);
 			w.all_result[w.all_result.length] = this.result;
+/*初期化*/	//w.all_result = [];
 			window.localStorage.setItem("balance", JSON.stringify(w.all_result));
 		},
 		new_target: function() {

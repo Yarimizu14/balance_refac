@@ -12,10 +12,13 @@
 			}
 		
 			var now = "";
+			/*
 			now += "西暦" + d.getFullYear() + "年";
+			*/
 			now += adjust(d.getMonth() + 1) + "月";
 			now += adjust(d.getDate()) + "日";
 			
+			/*
 			var y = d.getDay();
 			if (y == 6) {
 				now +=  "土曜日" + "　";
@@ -32,10 +35,12 @@
 			} else if (y == 0) {
 				now +=  "日曜日" + "　";	
 			};
-			
+			*/
 			now += adjust(d.getHours()) + "時";
 			now += adjust(d.getMinutes()) + "分";
+			/*
 			now += adjust(d.getSeconds()) + "秒";
+			*/
 			
 			return now;
 		}
