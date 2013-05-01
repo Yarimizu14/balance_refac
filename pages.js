@@ -20,12 +20,12 @@
 
 			if (next === 2) {  
 				View.startGame();
-/*PCデバッグ用*/ //w.balance.initialize(); 
+/*PCデバッグ用*/ $b.initialize(); 
 			} else if (next === 3) {
 				var out = document.getElementById("out");
 				var history_list = document.getElementById("history_list");
 				
-				out.innerHTML = "スコア : " + balance.result.score;
+				out.innerHTML = "スコア : " + $b.result.score;
 				
 				for(var i=0; i < all_result.length && i < 5; i++) {
 					var liTag = document.createElement("li");
@@ -72,12 +72,15 @@
 				alert("canvasを描画します");
 				this.playing = true;
 
-				w.balance.initialize();
+				//w.balance.initialize();
+				$b.initialize();
 			} else if (this.playing){
 				alert("向きが正常ではありません。プレイを終了します。");
 				this.playing = false;
 				/*「右に傾けてください」とアラートを出すdivをアペンドする。*/
-				w.balance.destroy();
+				
+				//w.balance.destroy();
+				$b.destroy();
 			};
 		},
 		//初期化、イベントのセット

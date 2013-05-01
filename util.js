@@ -46,6 +46,64 @@
 		}
 	};
 	
+	function Timer(min, sec, func){
+		this.min = min;
+		this.sec = sec;
+		this.func = func;
+		this.timerID = null;
+		
+		this.start();
+	}
+
+	Timer.prototype = {
+		start: function() {
+			var self = this;
+			this.timerID = setInterval(function(){
+				self.count();
+			}, 1000);
+		},
+		count: function() {
+			this.sec -= 1;
+			if (this.sec <= 0 && this.min >= 1) {
+				this.sec = 60;
+				this.min--;
+			};
+			
+			this.func();
+			this.check();
+		},
+		reset: function() {
+			this.min = 0;
+			this.sec = 0;
+		},
+		check: function() {
+			if (this.min <= 0 && this.sec <= 0) {
+				clearInterval(this.timerID);
+				alert("診断終了");
+				return true;
+			} else {
+				return false;	
+			};
+		},
+		show: function() {
+			var clock = "";
+			if(this.min < 10) {
+				clock += "0" + this.min;
+			} else {
+				clock += this.min;
+			};
+			clock += ":"
+			if(this.sec < 10) {
+				clock += "0" + this.sec;
+			} else {
+				clock += this.sec;
+			}
+			
+			return clock;			
+		}
+	};
+	
 	w.util = util;
+	w.Timer = Timer;
 
 })(window);
