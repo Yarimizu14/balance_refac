@@ -57,9 +57,10 @@
 
 	Timer.prototype = {
 		start: function() {
-			var self = this;
+			var self = this; /* 一旦、selfを介することで出来る */
 			this.timerID = setInterval(function(){
 				self.count();
+				console.log(self.show());
 			}, 1000);
 		},
 		count: function() {
@@ -68,7 +69,7 @@
 				this.sec = 60;
 				this.min--;
 			};
-			
+
 			this.func();
 			this.check();
 		},
@@ -79,7 +80,6 @@
 		check: function() {
 			if (this.min <= 0 && this.sec <= 0) {
 				clearInterval(this.timerID);
-				alert("診断終了");
 				return true;
 			} else {
 				return false;	

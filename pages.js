@@ -12,154 +12,91 @@
 		//ページ遷移
 		move: function(next) {
 			this.pages[this.page_current].tag.style.display = "none";
+
 			this.pages[next].tag.style.display = "block";
-			setTimeout(function() { window.scrollTo(0, 1); }, 100);
-
-			var text = "この端末の横幅は" + window.innerWidth + "pxです。";
-			text += "この端末の縦幅は" + window.innerHeight + "pxです。";
-
-			if (next === 2) {  
-				View.startGame();
-/*PCデバッグ用*/ $b.initialize(); 
-			} else if (next === 3) {
-				var out = document.getElementById("out");
-				var history_list = document.getElementById("history_list");
-				
-				out.innerHTML = "スコア : " + $b.result.score;
-				
-				for(var i=0; i < all_result.length && i < 5; i++) {
-					var liTag = document.createElement("li");
-					var pScoreTag = document.createElement("p");
-					var pTimeTag = document.createElement("p");
-					
-					pScoreTag.innerHTML = all_result[i].score + " pt";
-					pScoreTag.className = "record_score";
-					pTimeTag.innerHTML = all_result[i].time;
-					pTimeTag.className = "record_time";	
-					
-					liTag.appendChild(pScoreTag);
-					liTag.appendChild(pTimeTag);
-					history_list.appendChild(liTag);
-				};
-			}
+			this.pages[next].initialize();
 
 			this.page_current = next;
+			setTimeout(function() { window.scrollTo(0, 1); }, 100);
 		},
 		history_push: function(next) {
-			var d = new Date();
-			history.pushState(
-				{ "type": "push", "date": d, "page_num": next }, // 次のページ描画に必要な情報
-				'title : ' + d.getTime(), // タイトル（動かない）
-				'/balance/page' + next// URL（必須）
-			);
+			history.pushState({ "page_num": next }, null, '/balance/page' + next);
 		},
 		history_replace: function(next) {
-			var d = new Date();
-			history.replaceState(
-				{ "type": "push", "date": d, "page_num": next }, // 次のページ描画に必要な情報
-				'title : ' + d.getTime(), // タイトル（動かない）
-				'/balance/page' + next// URL（必須）
-			);
+			history.replaceState({ "page_num": next }, null, '/balance/page' + next);
 		},
-		//ページをスキップして遷移遷移
 		skip: function() {
 
-		},
-		//iPhoneが回転した場合
-		startGame: function() {
-			//プレイ画面で画面を傾けるとCanvasをイニシャライズ
-			if (View.page_current === 2 && window.innerWidth === 480 && window.orientation < 0) {
-				alert("canvasを描画します");
-				this.playing = true;
-
-				//w.balance.initialize();
-				$b.initialize();
-			} else if (this.playing){
-				alert("向きが正常ではありません。プレイを終了します。");
-				this.playing = false;
-				/*「右に傾けてください」とアラートを出すdivをアペンドする。*/
-				
-				//w.balance.destroy();
-				$b.destroy();
-			};
 		},
 		//初期化、イベントのセット
 		initialize: function() {
 			this.page_current = 0;
-			var article = w.document.getElementsByTagName("article");
 
+			var article = w.document.getElementsByTagName("article");
 			for(var i=0; i < article.length; i++) {
 				//考え直す必要あり、articleを入れるかpage(article[i], i)を入れるか？
 				this.pages[i] = new page(article[i], i);
 			};
 
-			window.addEventListener("orientationchange", function(e) {
-			//window.addEventListener("click", function(e) {
-				View.startGame();
-			}, false);
+			window.addEventListener("orientationchange", startGame, false);
+			window.addEventListener("popstate", popstateHandler, false);
 
-			window.addEventListener("devicemotion", function(e) {
-			}, false);
-
-			window.addEventListener("popstate", function(e) {
-				console.log("/*********pop**********/");
-			/*
-				console.log(window.history);
-				console.log("Eventの現在のstateは ");
-				console.log(e.state);
-				console.log("Historyの現在のstateは ");
-				console.log(window.history.state);
-			*/
-				console.log("/**********************/");
-
-				//if(window.history.state !== null && window.history.state.page_num !== 0) {
-				if(e.state !== null) {
-					console.log("moved");
-					w.View.move(e.state.page_num);
-				} else {
-					w.View.move(0);
-				}
-			}, false);
-			
 			var links = w.document.getElementsByTagName("a");
-			//すべてのページタグにイベントを設定：data-link属性で指定されたリンクに移動
 			for(var i=0; i < links.length; i++) {
-				links[i].addEventListener("touchstart", function(e) {
-					w.View.move(parseInt(e.target.getAttribute("data-link")));
-					w.View.history_push(e.target.getAttribute("data-link"));
-				}, false);
-			};
+				links[i].addEventListener("touchstart", linkHandler, false);  			//すべてのページタグにイベントを設定：data-link属性で指定されたリンクに移動	
+			}
 
 			var flickHandler = getFlickHandler();
 			document.getElementById("flick-to-history").addEventListener("touchmove", flickHandler, false);
 			document.getElementById("flick-to-history").addEventListener("touchstart", flickHandler, false);
 			document.getElementById("flick-to-history").addEventListener("touchend", flickHandler, false);
-			document.getElementById("score").addEventListener("webkitTransitionEnd", function(e) {
-			
-				if(parseInt(e.target.getAttribute("data-layer")) === 1) { 
-					e.target.style.top = 0 + "px";
-					e.target.style.zIndex = 1;
-					document.getElementById("history").style.zIndex = 2;
-					document.getElementById("history").setAttribute("data-layer", "2");
-				}
-
-			}, false);
+			document.getElementById("score").addEventListener("webkitTransitionEnd", layerHandler , false);
 
 			document.getElementById("flick-to-result").addEventListener("touchmove", flickHandler, false);
 			document.getElementById("flick-to-result").addEventListener("touchstart", flickHandler, false);
 			document.getElementById("flick-to-result").addEventListener("touchend", flickHandler, false);
-			document.getElementById("history").addEventListener("webkitTransitionEnd", function(e) {
-
-				if(parseInt(e.target.getAttribute("data-layer")) === 1) {
-					e.target.style.top = 0 + "px";
-					e.target.style.zIndex = 1;
-					document.getElementById("score").style.zIndex = 2;
-					document.getElementById("score").setAttribute("data-layer", "2");
-				}
-
-			}, false);
+			document.getElementById("history").addEventListener("webkitTransitionEnd", layerHandler, false);
 		},
 	};
+
+	function startGame() {
+		//プレイ画面で画面を傾けるとCanvasをイニシャライズ
+		if (View.page_current === 2 && window.innerWidth === 480 && window.orientation < 0) {
+			alert("canvasを描画します");
+			this.playing = true;
+
+			//w.balance.initialize();
+			$b.initialize();
+		} else if (this.playing){
+			alert("向きが正常ではありません。プレイを終了します。");
+			this.playing = false;
+			/*「右に傾けてください」とアラートを出すdivをアペンドする。*/
+			
+			//w.balance.destroy();
+			$b.destroy();
+		};
+	}
+
+	function linkHandler(e) {
+		View.move(parseInt(e.target.getAttribute("data-link")));
+		View.history_push(e.target.getAttribute("data-link"));
+	}
+
+	function popstateHandler(e) {
+		(e.state !== null) ? View.move(e.state.page_num) : View.move(0);
+	}
+
+	function layerHandler(e) {
+		var section = e.target.id;
+		var target = (section === "history") ? "score" : "history";
+
+		if(parseInt(e.target.getAttribute("data-layer")) === 1) {
+			e.target.style.top = 0 + "px";
+			e.target.style.zIndex = 1;
+			document.getElementById(target).style.zIndex = 2;
+			document.getElementById(target).setAttribute("data-layer", "2");
+		}		
+	}
 
 	function getFlickHandler() {
 		var startY = 0;
@@ -203,6 +140,43 @@
 		this.visible = false;
 	};
 
+	page.prototype = {
+		initialize: function() {
+			switch(this.page_num) {
+				case 2:
+					startGame();
+/*PCデバッグ用*/ 		$b.initialize();
+					console.log("3番目のページがロードされました。");
+					break;
+				case 3:
+					var out = document.getElementById("out");
+					var history_list = document.getElementById("history_list");
+					
+					out.innerHTML = "スコア : " + $b.result.score;
+					
+					for(var i=0; i < $s.all.length && i < 5; i++) {
+						var liTag = document.createElement("li");
+						var pScoreTag = document.createElement("p");
+						var pTimeTag = document.createElement("p");
+						
+						pScoreTag.innerHTML = $s.all[i].score + " pt";
+						pScoreTag.className = "record_score";
+						pTimeTag.innerHTML = $s.all[i].time;
+						pTimeTag.className = "record_time";	
+						
+						liTag.appendChild(pScoreTag);
+						liTag.appendChild(pTimeTag);
+						history_list.appendChild(liTag);
+					};
+					console.log("4番目のページがロードされました。");
+					break;
+				default:
+					break;
+			};
+		}
+	}
+
 	w.View = View;
+	w.page = page;
 
 })(window);

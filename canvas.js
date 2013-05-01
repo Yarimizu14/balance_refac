@@ -10,10 +10,14 @@
 				} else {
 					$s.all = storage;
 				};		
-			};			
+			};
 		},
-		addStorage: function() {
-			
+		addStorage: function(obj) {
+			this.all[this.all.length] = obj;
+			window.localStorage.setItem("balance", JSON.stringify(this.all));
+		},
+		reset: function() {
+			window.localStorage.setItem("balance", "");			
 		}
 	};
 
@@ -48,7 +52,7 @@
 			this.cvs.height = 320;
 			this.cvs.width = 480;
 
-			this.timer = new Timer(0, 10, this.draw);
+			this.timer = new Timer(0, 10, this.repeat);
 			
 			this.result.score =0;
 			
@@ -62,6 +66,8 @@
 				$b.move.yg = yg;
 				
 			}, true);
+
+			return new_cvs; //キャンバスのタグを返す。
 		},
 		draw: function() {
 			var cvs = $b.cvs,
@@ -96,19 +102,22 @@
 			ctx.rotate(-angle);
 
 			return pos_current;
-		}, 
-		saveResult: function() {
-/*
-			var d = new Date();
-			this.result.time = util.translate(d);
-			w.all_result[w.all_result.length] = this.result;
-*/
-/*初期化*/	//w.all_result = [];
-//			window.localStorage.setItem("$b", JSON.stringify(w.all_result));
-
+		},
+		repeat: function() {
+			$b.draw();
+			if ($b.timer.check()) {
+				alert("診断終了");
+				var d = new Date();
+				$b.result.time = util.translate(d);
+				$s.addStorage($b.result);
+				View.move(3);
+				$b.destroy();
+				/*Triggerでイベントを発火する。*/
+			}
 		},
 		destroy: function() {
-			this.wrapper.removeChild(this.cvs);
+			this.cvs.parentNode.removeChild(this.cvs);
+			//this.wrapper.removeChild(this.cvs);
 			this.cvs = null;
 			this.ctx = null;
 			//w.removeEventListener();
@@ -116,6 +125,7 @@
 	};
 
 	w.$b = $b;
+	$s.getStorage();
 	w.$s = $s;
 
 })(window);
