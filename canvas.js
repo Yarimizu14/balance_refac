@@ -1,8 +1,8 @@
 (function(w) {
 	
 	var $s = {
-		all: [{time: "sample", score: 5}, {time: "sample2", score: 4}, {time: "sample3", score: 6}, {time: "sample4", score: 7}, {time: "sample5", score: 3}],
-		//all: [],
+		//all: [{time: "sample", score: 5}, {time: "sample2", score: 4}, {time: "sample3", score: 6}, {time: "sample4", score: 7}, {time: "sample5", score: 6}],
+		all: [],
 		getStorage: function() {
 			var storage = JSON.parse(window.localStorage.getItem("balance"));
 			if (storage !== null) {
@@ -10,7 +10,7 @@
 					$s.all[0] = storage;
 				} else {
 					$s.all = storage;
-				};		
+				};
 			};
 		},
 		addStorage: function(obj) {
@@ -38,8 +38,14 @@
 			xg: 0,
 			yg: 0	
 		},
-		pos_target: Math.floor(w.innerHeight/2),
-		pos_current: Math.floor(w.innerHeight/2),
+		current: {
+			x: 0,
+			y: 0
+		},
+		target: {
+			x: window.innerHeight/2,
+			y: window.innerWidth/2
+		},
 
 		initialize: function() {
 			this.playing = true;
@@ -68,27 +74,36 @@
 			var cvs = $b.cvs,
 				ctx = $b.ctx,
 				move = $b.move,
-				pos_current = $b.pos_current,
-				pos_target = $b.pos_target;
+				current = $b.current,
+				target = $b.target;
 
 			ctx.clearRect(0, 0, cvs.width, cvs.height);
 
 			ctx.fillStyle = "black";
 			ctx.fillRect(0, 0, cvs.width, cvs.height);
 
-			pos_current = Math.floor(window.innerHeight/2 + move.xg * 30);
+			current.x = Math.floor(window.innerHeight/2 + move.xg * 35);
+			current.y = Math.floor(window.innerWidth/2 + move.yg * 60) + 15;
+			
 			ctx.fillStyle = "red";
-			ctx.fillRect(0, pos_current, cvs.width, 3);
+			ctx.fillRect(0, current.x, cvs.width, 3);
+			ctx.fillRect(current.y, 0, 3, cvs.height);
 
 			ctx.fillStyle = "blue";
-			ctx.fillRect(0, pos_target, cvs.width, 3);
+			ctx.fillRect(0, target.x, cvs.width, 3);
+			ctx.fillRect(target.y, 0, 3, cvs.height);
 
-			var dif = Math.abs(pos_current - pos_target);
-			if(dif == 0) { 
-				$b.pos_target = Math.floor(Math.random() * (window.innerHeight - 20)); 
+			var dif = {};
+			dif.x = Math.abs(current.x - target.x);
+			dif.y = Math.abs(current.y - target.y);
+			if(dif.x <= 3 && dif.y <= 3) { 
+				$b.target.x = Math.floor(Math.random() * (window.innerHeight - 20));
+				$b.target.y = Math.floor(Math.random() * (window.innerWidth - 20));
+
 				$b.result.score++;
 			};
 			
+			/*タイムカウントの表示*/
 			var angle = 90 * Math.PI / 180;
 			ctx.rotate(angle);
 			ctx.font = "18px 'ＭＳ Ｐゴシック'";
@@ -96,7 +111,7 @@
 			ctx.fillText($b.timer.show(), 10, -10);
 			ctx.rotate(-angle);
 
-			return pos_current;
+			return current;
 		},
 		update: function() {
 			$b.draw();

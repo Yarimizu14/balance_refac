@@ -18,7 +18,11 @@ body {
 	padding: 0;
 	/*position: relative;*/ /*relativeにするとViewportが効かなくなる*/
 }
-
+/*
+a {
+	display: inline-block;
+}
+*/
 article {
 	/*width: 100%;*/
 	width: 320px;
@@ -211,8 +215,9 @@ section {
 /**********************************/
 
 article#result .back_button {
-	margin-top: 15%;
+/*	margin-top: 15%;
 	margin-left: 15%;	
+	*/
 }
 
 /**********************************/

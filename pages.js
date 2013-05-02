@@ -21,10 +21,12 @@
 		controlHistory: function(next) {
 			if (this.page_current === 2) {
 				console.log("replace");
-				history.replaceState({ "page_num": next }, null, '/balance/page' + next);
+				//history.replaceState({ "page_num": next }, null, '/balance/page' + next);
+				history.replaceState({ "page_num": next }, null, '/balance/');
 			} else {
-							console.log("pushed");
-				history.pushState({ "page_num": next }, null, '/balance/page' + next);
+				console.log("pushed");
+				//history.pushState({ "page_num": next }, null, '/balance/page' + next);
+				history.pushState({ "page_num": next }, null, '/balance/');
 			}
 		},
 		//初期化、イベントのセット
@@ -43,7 +45,14 @@
 			for(var i=0; i < links.length; i++) {
 				links[i].addEventListener("touchstart", linkHandler, false);  			//すべてのページタグにイベントを設定：data-link属性で指定されたリンクに移動	
 			}
-
+/*
+			var links2 = w.document.getElementsByTagName("section");
+			for(var i=0; i < links2.length; i++) {
+				links2[i].addEventListener("touchstart", function() {
+					console.log("test");
+				}, false);  			//すべてのページタグにイベントを設定：data-link属性で指定されたリンクに移動	
+			}
+*/
 			var flickHandler = getFlickHandler();
 			document.getElementById("flick-to-history").addEventListener("touchmove", flickHandler, false);
 			document.getElementById("flick-to-history").addEventListener("touchstart", flickHandler, false);
@@ -93,7 +102,7 @@
 		var link = parseInt(e.currentTarget.getAttribute("data-link"));
 		if(link !== null) {
 			$v.controlHistory(link);
-			$v.move(link);	
+			$v.move(link);
 		}
 	}
 
