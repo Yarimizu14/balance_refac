@@ -90,8 +90,11 @@
 	}
 
 	function linkHandler(e) {
-		$v.controlHistory(parseInt(e.target.getAttribute("data-link")));
-		$v.move(parseInt(e.target.getAttribute("data-link")));
+		var link = parseInt(e.currentTarget.getAttribute("data-link"));
+		if(link !== null) {
+			$v.controlHistory(link);
+			$v.move(link);	
+		}
 	}
 
 	function popstateHandler(e) {
@@ -145,6 +148,20 @@
 			}
 		}
 	}
+	
+	function bubbleSort(records) {
+		var tmp = 0;
+		
+		for(var i=0; i < records.length-1; i++) {
+			for(var j=0; j < records.length-i-1; j++) {
+				if (records[j].score < records[j+1].score) {
+					tmp = records[j];
+					records[j] = records[j+1];
+					records[j+1] = tmp;
+				}
+			}
+		}
+	}
 
 	function page(tag, num) {
 		this.page_num = num;
@@ -169,6 +186,8 @@
 					
 					out.innerHTML = "スコア : " + $b.result.score;
 					history_list.innerHTML = "";
+					
+					bubbleSort($s.all);
 					
 					for(var i=0; i < $s.all.length && i < 5; i++) {
 						var liTag = document.createElement("li");

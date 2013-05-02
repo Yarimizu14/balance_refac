@@ -1,7 +1,8 @@
 (function(w) {
 	
 	var $s = {
-		all: [],
+		all: [{time: "sample", score: 5}, {time: "sample2", score: 4}, {time: "sample3", score: 6}, {time: "sample4", score: 7}, {time: "sample5", score: 3}],
+		//all: [],
 		getStorage: function() {
 			var storage = JSON.parse(window.localStorage.getItem("balance"));
 			if (storage !== null) {
