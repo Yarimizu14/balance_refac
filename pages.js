@@ -85,7 +85,7 @@
 	function finishGame() {		
 		$s.addStorage($b.result);
 		$b.destroy();
-		//$v.controlHistory(3);
+		$v.controlHistory(3);
 		$v.move(3);
 	}
 

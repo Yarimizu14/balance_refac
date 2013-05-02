@@ -5,19 +5,5 @@ window.addEventListener("DOMContentLoaded", function() {
 
 	window.$v.initialize();
 	
-/*
-	cvs.addEventListener("touchstart", function(e) {
-		adjust_screen();
-		//alert("sample of Touchstart");
-	}, false);
-
-	cvs.addEventListener("touchend", function(e) {
-		//alert("sample of Touchend");
-	}, false);
-
-	cvs.addEventListener("touchmove", function(e) {
-		//alert("sample of Touchmove");
-	}, false);
-*/
 }, false);
 
