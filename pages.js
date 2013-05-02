@@ -3,7 +3,6 @@
 	var $v =  {
 		pages: [],						//各ページを格納する配列
 		page_current: 0,
-		//playing: false,					//診断を実行中かどうか
 		screen: {
 			"direction": window.orientation,  　//iPhoneの方向
 			"width": window.innerWidth, 　//iPhoneの画面幅
@@ -60,27 +59,28 @@
 	//デバッグ用
 	function g() {
 		var wrapper = document.getElementById("play");
-		//wrapper.innerHTML = "";
 		wrapper.appendChild($b.initialize());
 	}
 
 	function startGame() {
-		if (window.innerWidth === 480 && window.orientation < 0) {		//正常な位置の場合
-			if (!$b.playing) {
-				alert("ゲームを開始します。");
-				g();
-				return true;
-			}
-			if ($b.playing && !$b.active) {
-				$b.restart();
-				alert("リスタートします。");
-			}
-		} else {														//正常な位置ではない場合
-			//($b.active) ? $b.stop() : return false;
-			if ($b.playing && $b.active) {
-				$b.stop();
-				alert("一時停止します。");
-			}
+		if ($v.page_current === 2) {
+			if (window.innerWidth === 480 && window.orientation < 0) {		//正常な位置の場合
+				if (!$b.playing) {
+					alert("ゲームを開始します。");
+					g();
+					return true;
+				}
+				if ($b.playing && !$b.active) {
+					$b.restart();
+					alert("リスタートします。");
+				}
+			} else {														//正常な位置ではない場合
+				//($b.active) ? $b.stop() : return false;
+				if ($b.playing && $b.active) {
+					$b.stop();
+					alert("一時停止します。");
+				}
+			}			
 		}
 	}
 	
