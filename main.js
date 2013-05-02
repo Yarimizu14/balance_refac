@@ -3,7 +3,7 @@ window.addEventListener("DOMContentLoaded", function() {
 
 	setTimeout(function() { window.scrollTo(0,1); }, 1);
 
-	window.View.initialize();
+	window.$v.initialize();
 	
 /*
 	cvs.addEventListener("touchstart", function(e) {

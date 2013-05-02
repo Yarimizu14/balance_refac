@@ -17,14 +17,16 @@
 			window.localStorage.setItem("balance", JSON.stringify(this.all));
 		},
 		reset: function() {
+			this.all = [];
 			window.localStorage.setItem("balance", "");			
 		}
 	};
 
 	var $b = {
-		wrapper: null,
 		cvs: null,
 		ctx: null,
+		playing: false,
+		active: false,
 		timer: null,
 		result: {
 			time: null,
@@ -39,35 +41,27 @@
 		pos_current: Math.floor(w.innerHeight/2),
 
 		initialize: function() {
-			this.wrapper = document.getElementById("play");
-			this.wrapper.innerHTML = "";
-
+			this.playing = true;
+			this.active = true;
+			
 			var new_cvs = document.createElement("canvas");
-			new_cvs.setAttribute("id", "canvas");
+			new_cvs.setAttribute("id", "canvas");				/* position: absolute; z-index: 10; を指定 */
 
 			this.cvs = new_cvs;
-			this.wrapper.appendChild(new_cvs);
 			this.ctx = this.cvs.getContext("2d");
 
 			this.cvs.height = 320;
 			this.cvs.width = 480;
 
-			this.timer = new Timer(0, 10, this.repeat);
+			this.timer = new Timer(0, 10, this.update);
 			
 			this.result.score =0;
 			
-			this.draw(0);
+/*デバッグ用*/	this.draw(0);
 
-			w.addEventListener("devicemotion", function(e){
-				var xg = e.accelerationIncludingGravity.x;  // X方向の傾き
-				var yg = e.accelerationIncludingGravity.y;  // Y方向の傾き
-				
-				$b.move.xg = xg;
-				$b.move.yg = yg;
-				
-			}, true);
+			w.addEventListener("devicemotion", gravity_detection, true);
 
-			return new_cvs; //キャンバスのタグを返す。
+			return new_cvs;
 		},
 		draw: function() {
 			var cvs = $b.cvs,
@@ -90,7 +84,7 @@
 
 			var dif = Math.abs(pos_current - pos_target);
 			if(dif == 0) { 
-				pos_target = Math.floor(Math.random() * (window.innerHeight - 20)); 
+				$b.pos_target = Math.floor(Math.random() * (window.innerHeight - 20)); 
 				$b.result.score++;
 			};
 			
@@ -103,26 +97,49 @@
 
 			return pos_current;
 		},
-		repeat: function() {
+		update: function() {
 			$b.draw();
 			if ($b.timer.check()) {
 				alert("診断終了");
 				var d = new Date();
 				$b.result.time = util.translate(d);
-				$s.addStorage($b.result);
-				View.move(3);
-				$b.destroy();
-				/*Triggerでイベントを発火する。*/
+				
+				var customEvent = document.createEvent("HTMLEvents");
+				customEvent.initEvent("custom_event", true, false);
+				window.dispatchEvent(customEvent);
 			}
 		},
+		stop: function() {
+			this.timer.stop();
+			this.active = false;
+			w.removeEventListener("devicemotion", gravity_detection, true);
+			this.cvs.style.display = "none";
+		},
+		restart: function() {
+			this.timer.start();
+			this.active = true;
+			w.addEventListener("devicemotion", gravity_detection, true);
+			this.cvs.style.display = "block";
+		},
 		destroy: function() {
+			this.playing = false;
+			this.active = false;
 			this.cvs.parentNode.removeChild(this.cvs);
-			//this.wrapper.removeChild(this.cvs);
 			this.cvs = null;
 			this.ctx = null;
-			//w.removeEventListener();
+			w.addEventListener("devicemotion", gravity_detection, true);
 		}
 	};
+	
+	function gravity_detection(e) {
+		var xg = e.accelerationIncludingGravity.x;  // X方向の傾き
+		var yg = e.accelerationIncludingGravity.y;  // Y方向の傾き
+		
+		$b.move.xg = xg;
+		$b.move.yg = yg;
+		
+		$b.update();		
+	}
 
 	w.$b = $b;
 	$s.getStorage();

@@ -23,7 +23,6 @@ article {
 	/*width: 100%;*/
 	width: 320px;
 	height: 416px;
-	border: solid 1px black;
 
 	position: absolute;
 	top: 0;
@@ -109,12 +108,15 @@ article#play {
 }
 
 article#play #alert {
-	width: 180px;
-	height: 180px;
-	margin: 30% auto;
-	padding-top: 40px;
+	width: 60%;
+	height: 40%;
+	padding-top: 10%;
 	box-sizing: border-box;
 	
+	position: absolute;
+	top: 20%;
+	left: 20%;
+		
 	background-color: white;
 	opacity: 0.7;
 	border-radius: 10px;
@@ -144,16 +146,17 @@ article#play #alert p {
 	text-align: center;
 }
 
+/*
 #cvs_container {
 	width: 100%;
 	height: 100%;
 
 	position: fixed;
-	/*background-color: blue;*/
 }
-
+*/
 #canvas {
-	/*background-color: black;*/
+	position: absolute;
+	z-index: 10;
 }
 
 /**********************************/

@@ -63,6 +63,9 @@
 				console.log(self.show());
 			}, 1000);
 		},
+		stop: function() {
+			clearInterval(this.timerID);
+		},
 		count: function() {
 			this.sec -= 1;
 			if (this.sec <= 0 && this.min >= 1) {
@@ -70,7 +73,7 @@
 				this.min--;
 			};
 
-			this.func();
+			//this.func();
 			this.check();
 		},
 		reset: function() {
