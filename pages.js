@@ -14,15 +14,18 @@
 
 			this.pages[next].tag.style.display = "block";
 			this.pages[next].initialize();
+			setTimeout(function() { window.scrollTo(0, 1); }, 100);
 
 			this.page_current = next;
-			setTimeout(function() { window.scrollTo(0, 1); }, 100);
 		},
-		history_push: function(next) {
-			history.pushState({ "page_num": next }, null, '/balance/page' + next);
-		},
-		history_replace: function(next) {
-			history.replaceState({ "page_num": next }, null, '/balance/page' + next);
+		controlHistory: function(next) {
+			if (this.page_current === 2) {
+				console.log("replace");
+				history.replaceState({ "page_num": next }, null, '/balance/page' + next);
+			} else {
+							console.log("pushed");
+				history.pushState({ "page_num": next }, null, '/balance/page' + next);
+			}
 		},
 		//初期化、イベントのセット
 		initialize: function() {
@@ -56,18 +59,13 @@
 		},
 	};
 
-	//デバッグ用
-	function g() {
-		var wrapper = document.getElementById("play");
-		wrapper.appendChild($b.initialize());
-	}
-
 	function startGame() {
 		if ($v.page_current === 2) {
 			if (window.innerWidth === 480 && window.orientation < 0) {		//正常な位置の場合
 				if (!$b.playing) {
 					alert("ゲームを開始します。");
-					g();
+					var wrapper = document.getElementById("play");
+					wrapper.appendChild($b.initialize());
 					return true;
 				}
 				if ($b.playing && !$b.active) {
@@ -87,12 +85,13 @@
 	function finishGame() {		
 		$s.addStorage($b.result);
 		$b.destroy();
+		//$v.controlHistory(3);
 		$v.move(3);
 	}
 
 	function linkHandler(e) {
+		$v.controlHistory(parseInt(e.target.getAttribute("data-link")));
 		$v.move(parseInt(e.target.getAttribute("data-link")));
-		$v.history_push(e.target.getAttribute("data-link"));
 	}
 
 	function popstateHandler(e) {
@@ -158,7 +157,11 @@
 			switch(this.page_num) {
 				case 2:
 					startGame();
-/*PCデバッグ用*/ 	//g();
+/*PCデバッグ用*/ 	
+/*
+					var wrapper = document.getElementById("play");
+					wrapper.appendChild($b.initialize());
+*/
 					break;
 				case 3:
 					var out = document.getElementById("out");
