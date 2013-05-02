@@ -168,6 +168,7 @@
 					var history_list = document.getElementById("history_list");
 					
 					out.innerHTML = "スコア : " + $b.result.score;
+					history_list.innerHTML = "";
 					
 					for(var i=0; i < $s.all.length && i < 5; i++) {
 						var liTag = document.createElement("li");

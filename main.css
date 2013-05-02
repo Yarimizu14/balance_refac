@@ -173,7 +173,7 @@ section {
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	/*overflow: hidden;*/
+	overflow: hidden;
 	
 	background-image: url(./images/ptn.png);
 }
@@ -183,8 +183,7 @@ section {
 .flick {
 	width: 100%;
 	height: 35px;
-	/*position: absolute;*/
-	position: fixed;
+	position: absolute;
 	bottom: 0;
 
 	text-align: center;
@@ -212,8 +211,8 @@ section {
 /**********************************/
 
 article#result .back_button {
-	margin-top: 5%;
-	margin-left: 15%;
+	margin-top: 15%;
+	margin-left: 15%;	
 }
 
 /**********************************/
