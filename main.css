@@ -226,11 +226,24 @@ section#score {
 	z-index: 2;
 }
 
+section#score ul{
+	list-style: none;
+	margin: 0.5em 0 0 0;
+	padding: 0;
+}
+
+section#score li{
+	margin-top: 15px;
+}
+
 /*小タイトル*/
 .small_title {
+	float: left;
+
 	width: 4em;
+	width: 20%;
 	height: 20px;
-	margin: 1.0em 0 0 1.4em;
+	margin: 0 0 0 1.0em;
 
 	line-height: 20px;
 	color: #eeeeee;
@@ -241,14 +254,23 @@ section#score {
 	-webkit-box-shadow: 0px 1px 3px 0px rgba(2,2,2, 0.5);
 }
 
+.result_contents {
+	float: left;
+	width: 70%;
+	/*margin: -0.8em 0 0 auto;*/
+	/*text-align: left;*/
+}
+
 .score_bar {
 	height: 1.8em;
-	width: 80%;
 	margin: 0 0 0 auto;
+	/*margin-top: -0.1em;*/
+	/*margin: auto;*/
 	
 	line-height: 2.0em;
-	font-size: 2.0em;
-	text-indent: 1.0em;
+	font-size: 1.8em;
+	/*text-indent: 2.0em;*/
+	text-align: center;
 	
 	border-bottom: solid 2px #333;	
 	box-shadow: 0px 1px 0px 0px #111;
@@ -265,8 +287,14 @@ section#score {
 
 #level_img {
 	display: block;
-	margin: 5px auto 0;
-	height: 160px;
+	margin: 0 auto;
+	height: 165px;
+}
+
+.repeat_button {
+	position: absolute;
+	bottom: 60px;
+	left: 15%;
 }
 
 /**********************************/

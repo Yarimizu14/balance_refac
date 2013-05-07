@@ -1,7 +1,6 @@
 (function(w) {
 	
 	var $s = {
-		//all: [{time: "sample", score: 5}, {time: "sample2", score: 4}, {time: "sample3", score: 6}, {time: "sample4", score: 7}, {time: "sample5", score: 6}],
 		all: [],
 		getStorage: function() {
 			var storage = JSON.parse(window.localStorage.getItem("balance"));
@@ -46,6 +45,7 @@
 			x: window.innerHeight/2,
 			y: window.innerWidth/2
 		},
+		imgs: [],
 
 		initialize: function() {
 			this.playing = true;
@@ -59,14 +59,36 @@
 
 			this.cvs.height = 320;
 			this.cvs.width = 480;
-
-			this.timer = new Timer(0, 10, this.update);
 			
 			this.result.score =0;
 			
-/*デバッグ用*/	this.draw(0);
+			var ameba = new Image(), ameba_loaded = false;
+			var net = new Image(), net_loaded = false;
+			var start = function() {
+				if(net_loaded && ameba_loaded) {
+					$b.timer = new Timer(0, 10, $b.update);
+					w.addEventListener("devicemotion", gravity_detection, true);
+				}
+			}
+			
+			ameba.src = "./images/ameba.png";
+			this.imgs[0] = ameba;
+			ameba.addEventListener("load", function() {
+				ameba_loaded = true;
+				start();
+			}, false);
 
-			w.addEventListener("devicemotion", gravity_detection, true);
+			net.src = "./images/net.png";
+			this.imgs[1] = net;
+			net.addEventListener("load", function() {
+				net_loaded = true;
+				start();
+			}, false);
+
+			//this.timer = new Timer(0, 10, this.update);			
+/*デバッグ用*/	//this.draw();
+
+			//w.addEventListener("devicemotion", gravity_detection, true);
 
 			return new_cvs;
 		},
@@ -75,9 +97,8 @@
 				ctx = $b.ctx,
 				move = $b.move,
 				current = $b.current,
-				target = $b.target;
-
-			ctx.clearRect(0, 0, cvs.width, cvs.height);
+				target = $b.target,
+				imgs = $b.imgs;
 
 			ctx.fillStyle = "black";
 			ctx.fillRect(0, 0, cvs.width, cvs.height);
@@ -85,6 +106,9 @@
 			current.x = Math.floor(window.innerHeight/2 + move.xg * 35);
 			current.y = Math.floor(window.innerWidth/2 + move.yg * 60) + 15;
 			
+			ctx.drawImage(imgs[0], target.y-25, target.x-25, 50, 50);
+			ctx.drawImage(imgs[1], current.y-25, current.x-25, 50, 50);			
+/*
 			ctx.fillStyle = "red";
 			ctx.fillRect(0, current.x, cvs.width, 3);
 			ctx.fillRect(current.y, 0, 3, cvs.height);
@@ -92,11 +116,11 @@
 			ctx.fillStyle = "blue";
 			ctx.fillRect(0, target.x, cvs.width, 3);
 			ctx.fillRect(target.y, 0, 3, cvs.height);
-
+*/
 			var dif = {};
 			dif.x = Math.abs(current.x - target.x);
 			dif.y = Math.abs(current.y - target.y);
-			if(dif.x <= 3 && dif.y <= 3) { 
+			if(dif.x <= 10 && dif.y <= 10) { 
 				$b.target.x = Math.floor(Math.random() * (window.innerHeight - 20));
 				$b.target.y = Math.floor(Math.random() * (window.innerWidth - 20));
 

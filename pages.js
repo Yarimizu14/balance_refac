@@ -193,7 +193,7 @@
 					var out = document.getElementById("out");
 					var history_list = document.getElementById("history_list");
 					
-					out.innerHTML = "スコア : " + $b.result.score;
+					out.innerHTML = $b.result.score + "  pt";
 					history_list.innerHTML = "";
 					
 					bubbleSort($s.all);

@@ -56,16 +56,23 @@
 <article id="result">
 	<section id="score" class="moving_touch" data-layer="2">
 		<p class="page_title">診断結果</p>
-		<div>
-			<p class="small_title">Score</p>
-			<p id="out" class="score_bar"></p>
-		</div>
-		<div id="level_wrapper">
-			<p class="small_title">Level</p>
-			<!--p id="level_name">中国雑技団レベル</p-->
-			<!--img id="level_img" src="./images/china.jpeg" alt="レベルイベージ"-->
-		</div>
-		<a data-link="1"><p class="button sub_button gray_gradient">もう一度</p></a>
+		<ul>
+			<li class="clearfix">
+				<p class="small_title">Score</p>
+				<div class="result_contents">
+					<p id="out" class="score_bar"></p>
+				</div>				
+			</li>
+			<li class="clearfix">
+				<p class="small_title">Level</p>
+				<div id="level_wrapper" class="result_contents">
+					<!--p id="level_name">中国雑技団レベル</p-->
+					<img id="level_img" src="./images/china.jpeg" alt="レベルイベージ">
+				</div>				
+			</li>
+		</ul>
+
+		<a data-link="0"><p class="button repeat_button gray_gradient">もう一度</p></a>
 <!--		<a data-link="1"><p class="button gray_gradient back_button" style="border: solid 1px black;">もう一度</p></a>-->
 		<div id="flick-to-history" class="flick">過去の成績へ</div>
 	</section>
