@@ -12,11 +12,10 @@
 		move: function(next) {
 			this.pages[this.page_current].tag.style.display = "none";
 
+			this.page_current = next;
 			this.pages[next].tag.style.display = "block";
 			this.pages[next].initialize();
 			setTimeout(function() { window.scrollTo(0, 1); }, 100);
-
-			this.page_current = next;
 		},
 		controlHistory: function(next) {
 			if (this.page_current === 2) {
@@ -69,6 +68,7 @@
 	};
 
 	function startGame() {
+		console.log("page_current :" + $v.page_current);
 		if ($v.page_current === 2) {
 			if (window.innerWidth === 480 && window.orientation < 0) {		//正常な位置の場合
 				if (!$b.playing) {
@@ -182,6 +182,7 @@
 		initialize: function() {
 			switch(this.page_num) {
 				case 2:
+					console.log("game initialized");
 					startGame();
 /*PCデバッグ用*/ 	
 /*
@@ -195,8 +196,16 @@
 					var history_list = document.getElementById("history_list");
 
 					out.innerHTML = $b.result.score + "  pt";
-					/*level_img.src = "./images/level/2_safa.jpg";*/
-					level_img.className = "level_1_baby";
+					if ($b.result.score > 8) {
+						level_img.className = "level_4_china";
+					} else if ($b.result.score > 5) {
+						level_img.className = "level_3_taisou";						
+					} else if ($b.result.score > 3) {
+						level_img.className = "level_2_safa";
+					} else {
+						level_img.className = "level_1_baby";
+					}
+					
 					history_list.innerHTML = "";
 					
 					bubbleSort($s.all);
