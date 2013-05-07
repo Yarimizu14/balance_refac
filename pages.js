@@ -187,13 +187,16 @@
 /*
 					var wrapper = document.getElementById("play");
 					wrapper.appendChild($b.initialize());
-*/
+/**/
 					break;
 				case 3:
 					var out = document.getElementById("out");
+					var level_img = document.getElementById("level_img");
 					var history_list = document.getElementById("history_list");
-					
+
 					out.innerHTML = $b.result.score + "  pt";
+					/*level_img.src = "./images/level/2_safa.jpg";*/
+					level_img.className = "level_1_baby";
 					history_list.innerHTML = "";
 					
 					bubbleSort($s.all);

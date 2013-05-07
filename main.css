@@ -326,3 +326,9 @@ section#history li {
 	font-size: 0.8em;
 	color: gray;
 }
+
+/*level*/
+img.level_1_baby { width: 220px; height: 165px; background: url(./images/level.png) 0px 0px no-repeat; }
+img.level_2_safa { width: 220px; height: 165px; background: url(./images/level.png) -220px 0px no-repeat; }
+img.level_3_taisou { width: 220px; height: 165px; background: url(./images/level.png) -440px 0px no-repeat; }
+img.level_4_china { width: 165px; height: 166px; background: url(./images/level.png) -660px 0px no-repeat; }

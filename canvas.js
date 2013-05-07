@@ -62,28 +62,19 @@
 			
 			this.result.score =0;
 			
-			var ameba = new Image(), ameba_loaded = false;
-			var net = new Image(), net_loaded = false;
-			var start = function() {
-				if(net_loaded && ameba_loaded) {
-					$b.timer = new Timer(0, 10, $b.update);
-					w.addEventListener("devicemotion", gravity_detection, true);
-				}
-			}
-			
-			ameba.src = "./images/ameba.png";
-			this.imgs[0] = ameba;
-			ameba.addEventListener("load", function() {
-				ameba_loaded = true;
-				start();
+			var sprite = new Image();
+			sprite.src = "./images/tiny_draw.png";
+			this.imgs[0] = sprite;
+			console.log(sprite);
+			console.log(sprite.complete);
+						
+			sprite.addEventListener("load", function() {
+				alert("sprite loaded");
+				$b.timer = new Timer(0, 10, $b.update);
+				window.addEventListener("devicemotion", gravity_detection, true);
+				$b.draw();
 			}, false);
 
-			net.src = "./images/net.png";
-			this.imgs[1] = net;
-			net.addEventListener("load", function() {
-				net_loaded = true;
-				start();
-			}, false);
 
 			//this.timer = new Timer(0, 10, this.update);			
 /*デバッグ用*/	//this.draw();
@@ -106,20 +97,15 @@
 			current.x = Math.floor(window.innerHeight/2 + move.xg * 35);
 			current.y = Math.floor(window.innerWidth/2 + move.yg * 60) + 15;
 			
-			ctx.drawImage(imgs[0], target.y-25, target.x-25, 50, 50);
-			ctx.drawImage(imgs[1], current.y-25, current.x-25, 50, 50);			
-/*
-			ctx.fillStyle = "red";
-			ctx.fillRect(0, current.x, cvs.width, 3);
-			ctx.fillRect(current.y, 0, 3, cvs.height);
+			ctx.drawImage(imgs[0], 0, 0, 400, 400, target.y-25, target.x-25, 50, 50);
+			//ctx.drawImage(imgs[1], current.y-25, current.x-25, 50, 50);
+			
+			ctx.drawImage(imgs[0], 400, 0, 400, 400, current.y-25, current.x-25, 50, 50);
 
-			ctx.fillStyle = "blue";
-			ctx.fillRect(0, target.x, cvs.width, 3);
-			ctx.fillRect(target.y, 0, 3, cvs.height);
-*/
 			var dif = {};
 			dif.x = Math.abs(current.x - target.x);
 			dif.y = Math.abs(current.y - target.y);
+			
 			if(dif.x <= 10 && dif.y <= 10) { 
 				$b.target.x = Math.floor(Math.random() * (window.innerHeight - 20));
 				$b.target.y = Math.floor(Math.random() * (window.innerWidth - 20));
@@ -167,13 +153,15 @@
 			this.cvs.parentNode.removeChild(this.cvs);
 			this.cvs = null;
 			this.ctx = null;
-			w.addEventListener("devicemotion", gravity_detection, true);
+			w.removeEventListener("devicemotion", gravity_detection, true);
 		}
 	};
 	
 	function gravity_detection(e) {
 		var xg = e.accelerationIncludingGravity.x;  // X方向の傾き
 		var yg = e.accelerationIncludingGravity.y;  // Y方向の傾き
+		
+		console.log("removing");
 		
 		$b.move.xg = xg;
 		$b.move.yg = yg;
