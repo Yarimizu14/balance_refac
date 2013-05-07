@@ -182,7 +182,7 @@
 				case 2:
 					startGame();
 /*PCデバッグ用*/ 	
-/*
+/**/
 					var wrapper = document.getElementById("play");
 					wrapper.appendChild($b.initialize());
 /**/

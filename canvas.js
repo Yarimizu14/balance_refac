@@ -43,8 +43,10 @@
 		},
 		target: {
 			x: window.innerHeight/2,
-			y: window.innerWidth/2
+			y: window.innerWidth/2,
+			size: 0
 		},
+		level: 0,
 		imgs: new Image(),
 
 		initialize: function() {
@@ -59,6 +61,9 @@
 
 			this.cvs.height = 320;
 			this.cvs.width = 480;
+			
+			this.target.size =  150 - (Math.floor(Math.random() * 10) * this.level);
+			console.log(this.target.size);
 			
 			this.result.score =0;
 
@@ -80,7 +85,8 @@
 				move = $b.move,
 				current = $b.current,
 				target = $b.target,
-				imgs = $b.imgs;
+				imgs = $b.imgs,
+				size = $b.target.size;
 
 			ctx.fillStyle = "black";
 			ctx.fillRect(0, 0, cvs.width, cvs.height);
@@ -88,16 +94,22 @@
 			current.x = Math.floor(window.innerHeight/2 + move.xg * 35);
 			current.y = Math.floor(window.innerWidth/2 + move.yg * 60) + 15;
 			
-			ctx.drawImage(imgs, 0, 0, 400, 400, target.y-25, target.x-25, 50, 50);
-			//ctx.drawImage(imgs, current.y-25, current.x-25, 50, 50);
-			
-			ctx.drawImage(imgs, 400, 0, 400, 400, current.y-25, current.x-25, 50, 50);
+			ctx.drawImage(imgs, 0, 0, 400, 400, target.y-Math.floor(size/2), target.x-Math.floor(size/2), size, size);
+			ctx.drawImage(imgs, 400, 0, 400, 400, current.y-45, current.x-30, 80, 80);
+
+			ctx.fillStyle = "blue";
+			ctx.fillRect(0, target.x, $b.cvs.width, 3);
+			ctx.fillRect(target.y, 0, 3, $b.cvs.height);
+
+			ctx.fillStyle = "red";
+			ctx.fillRect(0, current.x, $b.cvs.width, 3);
+			ctx.fillRect(current.y, 0, 3, $b.cvs.height);
 
 			var dif = {};
 			dif.x = Math.abs(current.x - target.x);
 			dif.y = Math.abs(current.y - target.y);
 			
-			if(dif.x <= 10 && dif.y <= 10) { 
+			if(dif.x <= Math.floor(size/4) && dif.y <= Math.floor(size/4)) {
 				$b.target.x = Math.floor(Math.random() * (window.innerHeight - 20));
 				$b.target.y = Math.floor(Math.random() * (window.innerWidth - 20));
 
