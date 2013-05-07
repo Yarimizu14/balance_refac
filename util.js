@@ -1,6 +1,15 @@
 (function(w) {
+
+	/**
+	* Util
+	* translate   : 日時を日本語に変換する
+	*               @params d Dateオブジェクト
+	*/
 	var util = {
+
 		translate: function(d) {
+
+			//一桁の数値を二文字にする
 			var adjust = function(num) {
 				var str = "";
 				if(parseInt(num) < 10) {
@@ -11,41 +20,29 @@
 				return str;
 			}
 		
+			//日時を取得し文字列に追加
 			var now = "";
-			/*
-			now += "西暦" + d.getFullYear() + "年";
-			*/
 			now += adjust(d.getMonth() + 1) + "月";
 			now += adjust(d.getDate()) + "日";
-			
-			/*
-			var y = d.getDay();
-			if (y == 6) {
-				now +=  "土曜日" + "　";
-			}else if (y == 5) {
-				now +=  "金曜日" + "　";
-			} else if (y == 4) {
-				now +=  "木曜日" + "　";
-			} else if (y == 3) {
-				now +=  "水曜日" + "　";
-			} else if (y == 2) {
-				now +=  "火曜日" + "　";
-			} else if (y == 1) {
-				now +=  "月曜日" + "　";
-			} else if (y == 0) {
-				now +=  "日曜日" + "　";	
-			};
-			*/
 			now += adjust(d.getHours()) + "時";
 			now += adjust(d.getMinutes()) + "分";
-			/*
-			now += adjust(d.getSeconds()) + "秒";
-			*/
 			
 			return now;
 		}
 	};
 	
+	/**
+	* タイマー機能を持つオブジェクト
+	* min   : 残り分数
+	* sec   : 残り秒数
+	* //func
+	* start : カウントを開始する
+	* stop  : カウントを停止する
+	* count : 残り時間を減らす
+	* reset : 残り時間をリセットする
+	* check : 終了判定を行い真偽値を返す
+	* show  : 残り時間を文字列として返す
+	*/
 	function Timer(min, sec, func){
 		this.min = min;
 		this.sec = sec;
@@ -56,16 +53,18 @@
 	}
 
 	Timer.prototype = {
+
 		start: function() {
-			var self = this; /* 一旦、selfを介することで出来る */
+			var self = this;
 			this.timerID = setInterval(function(){
 				self.count();
-				console.log(self.show());
 			}, 1000);
 		},
+
 		stop: function() {
 			clearInterval(this.timerID);
 		},
+
 		count: function() {
 			this.sec -= 1;
 			if (this.sec <= 0 && this.min >= 1) {
@@ -73,21 +72,24 @@
 				this.min--;
 			};
 
-			//this.func();
 			this.check();
 		},
+
 		reset: function() {
 			this.min = 0;
 			this.sec = 0;
 		},
+
 		check: function() {
 			if (this.min <= 0 && this.sec <= 0) {
+				//this.stop();
 				clearInterval(this.timerID);
 				return true;
 			} else {
 				return false;	
 			};
 		},
+
 		show: function() {
 			var clock = "";
 			if(this.min < 10) {
