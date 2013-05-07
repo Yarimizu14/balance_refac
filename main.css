@@ -97,6 +97,28 @@ img#title {
 	width: 80%;
 	display: block;
 	margin: 30% auto 0;
+
+	-webkit-animation-name: title_anim;
+	-webkit-animation-duration: 5.0s;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: normal;	
+}
+
+@-webkit-keyframes title_anim {
+	0% {
+		-webkit-transform: scale(1.0);
+	}
+	95% {
+		-webkit-transform: scale(1.0);
+	}
+	98% {
+		-webkit-transform: scale(1.2);
+	}
+	100% {
+		-webkit-transform: scale(1.0);
+	} 
 }
 
 /**********************************/
