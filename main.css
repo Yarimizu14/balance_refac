@@ -103,11 +103,36 @@ img#title {
 article#description {
 }
 
-img#description {
-	width: 70%;
+.description_sprite {
+	width: 238px;
+	height: 280px;
+	
 	display: block;
 	margin: 10px auto 0;
+
+	background: url('./images/small_tiny_description.png') no-repeat;
 }
+
+.description_sprite {
+  -webkit-animation: desc 10s steps(5) infinite;
+  animation: desc 10s steps(5) infinite;
+}
+
+@-webkit-keyframes desc {
+  from {
+    background-position: 0px 0px;
+  }
+
+  to {
+    background-position: -1190px 0px;
+  }
+}
+
+/*
+.description_sprite {
+}
+*/
+
 
 /**********************************/
 article#play {
