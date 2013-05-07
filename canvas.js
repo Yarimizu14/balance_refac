@@ -45,7 +45,7 @@
 			x: window.innerHeight/2,
 			y: window.innerWidth/2
 		},
-		imgs: [],
+		imgs: new Image(),
 
 		initialize: function() {
 			this.playing = true;
@@ -61,25 +61,16 @@
 			this.cvs.width = 480;
 			
 			this.result.score =0;
-			
-			var sprite = new Image();
-			sprite.src = "./images/tiny_draw.png";
-			this.imgs[0] = sprite;
-			console.log(sprite);
-			console.log(sprite.complete);
-						
-			sprite.addEventListener("load", function() {
-				alert("sprite loaded");
-				$b.timer = new Timer(0, 10, $b.update);
-				window.addEventListener("devicemotion", gravity_detection, true);
-				$b.draw();
-			}, false);
 
-
-			//this.timer = new Timer(0, 10, this.update);			
-/*デバッグ用*/	//this.draw();
-
-			//w.addEventListener("devicemotion", gravity_detection, true);
+			if (this.imgs.complete) {
+				this.start();
+			} else {
+				this.imgs.src = "./images/tiny_draw.png";
+				
+				this.imgs.addEventListener("load", function() {
+					$b.start();
+				}, false);	
+			}
 
 			return new_cvs;
 		},
@@ -97,10 +88,10 @@
 			current.x = Math.floor(window.innerHeight/2 + move.xg * 35);
 			current.y = Math.floor(window.innerWidth/2 + move.yg * 60) + 15;
 			
-			ctx.drawImage(imgs[0], 0, 0, 400, 400, target.y-25, target.x-25, 50, 50);
-			//ctx.drawImage(imgs[1], current.y-25, current.x-25, 50, 50);
+			ctx.drawImage(imgs, 0, 0, 400, 400, target.y-25, target.x-25, 50, 50);
+			//ctx.drawImage(imgs, current.y-25, current.x-25, 50, 50);
 			
-			ctx.drawImage(imgs[0], 400, 0, 400, 400, current.y-25, current.x-25, 50, 50);
+			ctx.drawImage(imgs, 400, 0, 400, 400, current.y-25, current.x-25, 50, 50);
 
 			var dif = {};
 			dif.x = Math.abs(current.x - target.x);
@@ -122,6 +113,11 @@
 			ctx.rotate(-angle);
 
 			return current;
+		},
+		start: function() {
+			$b.timer = new Timer(0, 10, $b.update);
+			w.addEventListener("devicemotion", gravity_detection, true);
+			$b.draw();	
 		},
 		update: function() {
 			$b.draw();
@@ -154,6 +150,9 @@
 			this.cvs = null;
 			this.ctx = null;
 			w.removeEventListener("devicemotion", gravity_detection, true);
+		},
+		preload: function() {
+			this.imgs.src = "./images/tiny_draw.png";
 		}
 	};
 	
@@ -161,14 +160,13 @@
 		var xg = e.accelerationIncludingGravity.x;  // X方向の傾き
 		var yg = e.accelerationIncludingGravity.y;  // Y方向の傾き
 		
-		console.log("removing");
-		
 		$b.move.xg = xg;
 		$b.move.yg = yg;
 		
 		$b.update();		
 	}
 
+	$b.preload();
 	w.$b = $b;
 	$s.getStorage();
 	w.$s = $s;

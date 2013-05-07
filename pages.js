@@ -68,7 +68,6 @@
 	};
 
 	function startGame() {
-		console.log("page_current :" + $v.page_current);
 		if ($v.page_current === 2) {
 			if (window.innerWidth === 480 && window.orientation < 0) {		//正常な位置の場合
 				if (!$b.playing) {
@@ -82,7 +81,6 @@
 					alert("リスタートします。");
 				}
 			} else {														//正常な位置ではない場合
-				//($b.active) ? $b.stop() : return false;
 				if ($b.playing && $b.active) {
 					$b.stop();
 					alert("一時停止します。");
@@ -182,7 +180,6 @@
 		initialize: function() {
 			switch(this.page_num) {
 				case 2:
-					console.log("game initialized");
 					startGame();
 /*PCデバッグ用*/ 	
 /*
