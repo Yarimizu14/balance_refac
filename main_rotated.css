@@ -36,6 +36,12 @@ img#title {
 
 /**********************************/
 
+article#description p.page_title {
+	display: none;
+}
+
+/**********************************/
+
 article#play #alert {
 	padding-top: 8%;
 	top: 10%;

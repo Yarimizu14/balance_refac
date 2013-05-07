@@ -18,7 +18,7 @@
 		},
 		reset: function() {
 			this.all = [];
-			window.localStorage.setItem("balance", "");			
+			window.localStorage.clear();
 		}
 	};
 
@@ -62,8 +62,10 @@
 			this.cvs.height = 320;
 			this.cvs.width = 480;
 			
+			this.level = 0;
 			this.target.size =  150 - (Math.floor(Math.random() * 10) * this.level);
-			console.log(this.target.size);
+			this.target.x = Math.floor(Math.random() * (window.innerHeight - this.target.size) + this.target.size/2);
+			this.target.y = Math.floor(Math.random() * (window.innerWidth - this.target.size) + this.target.size/2);
 			
 			this.result.score =0;
 
@@ -97,23 +99,18 @@
 			ctx.drawImage(imgs, 0, 0, 400, 400, target.y-Math.floor(size/2), target.x-Math.floor(size/2), size, size);
 			ctx.drawImage(imgs, 400, 0, 400, 400, current.y-45, current.x-30, 80, 80);
 
-			ctx.fillStyle = "blue";
-			ctx.fillRect(0, target.x, $b.cvs.width, 3);
-			ctx.fillRect(target.y, 0, 3, $b.cvs.height);
-
-			ctx.fillStyle = "red";
-			ctx.fillRect(0, current.x, $b.cvs.width, 3);
-			ctx.fillRect(current.y, 0, 3, $b.cvs.height);
-
 			var dif = {};
 			dif.x = Math.abs(current.x - target.x);
 			dif.y = Math.abs(current.y - target.y);
 			
-			if(dif.x <= Math.floor(size/4) && dif.y <= Math.floor(size/4)) {
-				$b.target.x = Math.floor(Math.random() * (window.innerHeight - 20));
-				$b.target.y = Math.floor(Math.random() * (window.innerWidth - 20));
+			if(dif.x <= Math.floor(size/7) && dif.y <= Math.floor(size/7)) {
+				if($b.level < 15) { $b.level++; }
+				$b.target.size = 150 - ((Math.floor(Math.random() * 2) + 7) * $b.level);
 
-				$b.result.score++;
+				$b.target.x = Math.floor(Math.random() * (window.innerHeight - $b.target.size) + $b.target.size/2);
+				$b.target.y = Math.floor(Math.random() * (window.innerWidth - $b.target.size) + $b.target.size/2);
+
+				$b.result.score += $b.level * 10;
 			};
 			
 			/*タイムカウントの表示*/
@@ -127,7 +124,7 @@
 			return current;
 		},
 		start: function() {
-			$b.timer = new Timer(0, 10, $b.update);
+			$b.timer = new Timer(0, 30, $b.update);
 			w.addEventListener("devicemotion", gravity_detection, true);
 			$b.draw();	
 		},

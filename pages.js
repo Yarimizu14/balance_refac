@@ -182,7 +182,7 @@
 				case 2:
 					startGame();
 /*PCデバッグ用*/ 	
-/**/
+/*
 					var wrapper = document.getElementById("play");
 					wrapper.appendChild($b.initialize());
 /**/
@@ -193,11 +193,11 @@
 					var history_list = document.getElementById("history_list");
 
 					out.innerHTML = $b.result.score + "  pt";
-					if ($b.result.score > 8) {
+					if ($b.result.score > 1800) {
 						level_img.className = "level_4_china";
-					} else if ($b.result.score > 5) {
+					} else if ($b.result.score > 1200) {
 						level_img.className = "level_3_taisou";						
-					} else if ($b.result.score > 3) {
+					} else if ($b.result.score > 600) {
 						level_img.className = "level_2_safa";
 					} else {
 						level_img.className = "level_1_baby";
