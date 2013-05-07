@@ -1,0 +1,50 @@
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5) and (orientation : landscape),
+only screen and (min-device-pixel-ratio : 1.5) and (orientation : landscape)   
+{
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	width: 480px;
+	height: 320px;
+
+	margin: 0 auto;
+	padding: 0;	
+	
+	background-color: red;
+}
+
+article {
+	width: 480px;
+	height: 320px;
+}
+
+.page_title {
+	margin: 5px auto 0 0;
+}
+
+/**********************************/
+
+img#title {
+	width: 60%;
+	margin: 5% auto 0;
+}
+
+/**********************************/
+
+article#play #alert {
+	padding-top: 8%;
+	top: 10%;
+}
+
+/**********************************/
+
+img#description {
+	width: 30%;
+}
+
+}
